@@ -19,8 +19,8 @@ class PostResource extends JsonResource
             'user' => $this->whenLoaded('user', fn() => UserResource::make($this->user)),
             'title' => $this->title,
             'body' => $this->body,
-            'updated_at' => $this->updatedAt,
-            'created_at' => $this->createdAt
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

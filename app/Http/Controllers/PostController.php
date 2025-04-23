@@ -6,6 +6,7 @@ use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -43,8 +44,8 @@ class PostController extends Controller
         $post->load('user');
 
         return inertia('Posts/Show', [
-            'post' => new PostResource($post),
-            'comments' => CommentResource::collection($post->comments()
+            'post' => fn() => PostResource::make($post),
+            'comments' => fn() => CommentResource::collection($post->comments()
                 ->with('user')
                 ->latest()
                 ->latest('id')

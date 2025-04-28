@@ -7,6 +7,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ConfirmationModalWrapper from "@/Components/ConfirmationModalWrapper.vue";
 
 defineProps({
     title: String,
@@ -34,9 +35,15 @@ const menu = [
         when: () => usePage().props.auth.user
     },
     {
-        name: "posts",
+        name: "Posts",
         url: route('posts.index'),
         route: 'posts.index',
+    },
+    {
+        name: "Create a Post",
+        url: route('posts.create'),
+        route: 'posts.create',
+        when: () => usePage().props.permissions.create_posts,
     }
 ];
 </script>
@@ -272,5 +279,6 @@ const menu = [
                 <slot/>
             </main>
         </div>
+        <ConfirmationModalWrapper />
     </div>
 </template>

@@ -20,12 +20,13 @@ class DatabaseSeeder extends Seeder
 
 
         $posts = Post::factory(200)
+            ->withFixture()
             ->has(Comment::factory(15)->recycle($users))
             ->recycle($users)
             ->create();
 
         $zgjim = User::factory()
-            ->has(Post::factory(20))
+            ->has(Post::factory(20)->withFixture())
             ->has(Comment::factory(100)->recycle($posts))
             ->create([
                 'name' => 'zgjim',

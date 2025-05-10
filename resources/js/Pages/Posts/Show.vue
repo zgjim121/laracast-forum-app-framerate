@@ -1,7 +1,7 @@
 <template>
     <AppLayout :title="post.title">
         <Container>
-            <h1 class="text-2xl font-bold">{{ post.title }}</h1>
+            <PageHeading>{{post.title}}</PageHeading>
             <span class="block mt-1 text-sm text-gray-600"
                   v-if="post.created_at">{{ formattedDate }} by {{ post.user.name }}
             </span>
@@ -15,10 +15,11 @@
                       class="mt-4 ">
                     <div>
                         <InputLabel for="body" class="sr-only">Comment</InputLabel>
-                        <TextArea ref="commentTextAreaRef"
-                                  id="body"
-                                  v-model="commentForm.body"
-                                  placeholder="Share your thoughts..."/>
+                        <MarkdownEditor ref="commentTextAreaRef"
+                                        id="body"
+                                        v-model="commentForm.body"
+                                        placeholder="Share your thoughts..."
+                                        editorClass="min-h-[160px]"/>
                         <InputError :message="commentForm.errors.body"
                                     class="mt-1"/>
                     </div>
@@ -63,6 +64,8 @@ import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {useConfirm} from "@/Utilities/Composables/useConfirm.js";
+import MarkdownEditor from "@/Components/MarkdownEditor.vue";
+import PageHeading from "@/Components/PageHeading.vue";
 
 
 const props = defineProps(['post', 'comments']);

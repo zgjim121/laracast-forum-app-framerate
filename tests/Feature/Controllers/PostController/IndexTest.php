@@ -15,10 +15,17 @@ it('should return the correct component', function () {
 it('passes posts to the view', function () {
     $posts = Post::factory(3)->create();
 
-    $posts->load(['user', 'topic ']);
+    $posts->load(['user', 'topic']);
 
     get(route('posts.index'))
         ->assertHasPaginatedResource('posts', PostResource::collection($posts->reverse()));
+});
+
+it(' passes topic to the view', function () {
+    $topics = Topic::factory(3)->create();
+
+    get(route('posts.index'))
+        ->assertHasResource('topics', TopicResource::collection($topics) );
 });
 
 it('can filter to a topic', function () {

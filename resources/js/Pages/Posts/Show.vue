@@ -1,8 +1,8 @@
 <template>
     <AppLayout :title="post.title">
         <Container>
-            <Pill :href="route('posts.index', {topic: post.topic.slug})">{{post.topic.name}}</Pill>
-            <PageHeading class="mt-2">{{post.title}}</PageHeading>
+            <Pill :href="route('posts.index', {topic: post.topic.slug})">{{ post.topic.name }}</Pill>
+            <PageHeading class="mt-2">{{ post.title }}</PageHeading>
             <span class="block mt-1 text-sm text-gray-600"
                   v-if="post.created_at">{{ formattedDate }} by {{ post.user.name }}
             </span>
@@ -20,7 +20,7 @@
                                         id="body"
                                         v-model="commentForm.body"
                                         placeholder="Share your thoughts..."
-                                        editorClass="min-h-[160px]"/>
+                                        editorClass="!min-h-[160px]"/>
                         <InputError :message="commentForm.errors.body"
                                     class="mt-1"/>
                     </div>
@@ -119,13 +119,17 @@ const deleteComment = async (commentId) => {
         return;
     }
 
-    router.delete(route('comments.destroy', {
-        comment: commentId,
-        page: props.comments.meta.current_page
-    }), {
-        preserveScroll: true,
-        onSuccess: cancelEditComment
-    });
+    router.delete(
+        route('comments.destroy', {
+            comment: commentId,
+            page: props.comments.meta.length > 1
+                ? props.comments.meta.current_page
+                : Math.max(props.comments.meta.length - 1, 1),
+        }),
+        {
+            preserveScroll: true,
+            onSuccess: cancelEditComment
+        });
 };
 
 

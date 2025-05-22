@@ -10,7 +10,13 @@
             <span class="block mt-1 text-sm text-gray-600"
                   v-if="post.created_at">{{ formattedDate }} by {{ post.user.name }}
             </span>
-            <article class="mt-6 prose prose-sm max-w-none" v-html="post.html">
+
+            <div class="mt-4">
+                <span class="text-pink-500 font-bold">{{ post.likes_count }} likes</span>
+            </div>
+
+            <article class="mt-6 prose prose-sm max-w-none"
+                     v-html="post.html">
             </article>
             <div class="mt-12">
                 <h2 class="text-xl font-semibold">Comments</h2>

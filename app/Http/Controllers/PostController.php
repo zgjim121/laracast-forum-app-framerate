@@ -36,7 +36,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return inertia('Posts/Create',[
+        return inertia('Posts/Create', [
             'topics' => fn() => TopicResource::collection(Topic::all())
         ]);
     }
@@ -72,12 +72,18 @@ class PostController extends Controller
         $post->load('user', 'topic');
 
         return inertia('Posts/Show', [
-            'post' => fn() => PostResource::make($post),
-            'comments' => fn() => CommentResource::collection($post->comments()
-                ->with('user')
-                ->latest()
-                ->latest('id')
-                ->paginate(10)),
+            'post' => fn() => PostResource::make($post)->withLikePermission(),
+            'comments' => function () use ($post) {
+                $commentsResource = CommentResource::collection($post->comments()
+                    ->with('user')
+                    ->latest()
+                    ->latest('id')
+                    ->paginate(10));
+
+                $commentsResource->collection->transform(fn ($resource) => $resource->withLikePermission());
+
+                return $commentsResource;
+            },
         ]);
     }
 
